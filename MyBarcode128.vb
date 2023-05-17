@@ -3,8 +3,8 @@ Function MyBarcode128 (code_str As String) As String
 	'Parameters : a string
 	'Return : * a string which give the bar code when it is dispayed with CODE128.TTF font
 	'				 * an empty string if the supplied parameter is no good
-	' based on: https://grandzebu.net/informatique/codbar-en/code128.htm#Version
-	' My Github repo: https://github.com/saper-2/crystalreports-code128
+	' based on: https://github.com/saper-2/crystalreports-code128
+	' My Github repo: https://github.com/simchev/crystalreports-code128
 	Dim i As Number
 	Dim checksum As Number
 	Dim mini As Number
@@ -18,7 +18,7 @@ Function MyBarcode128 (code_str As String) As String
 	'Check for valid characters
 		For i = 1 To Len(code_str)
 			Select Case Asc(Mid(code_str, i, 1))
-			Case 32 To 126, 203
+			Case 32 To 126
 			Case Else
 				i = 0
 				Exit For
@@ -52,14 +52,14 @@ Function MyBarcode128 (code_str As String) As String
 					
 					If (mini < 0) Then 'select charset C
 						If (i = 1) Then 'if first char from code_str then add START-C code
-							MyBarcode128 = Chr(210)
+							MyBarcode128 = Chr(205)
 						Else 'if not first char from code_str, then use Code-C switch
-							MyBarcode128 = MyBarcode128 & Chr(204)
+							MyBarcode128 = MyBarcode128 & Chr(199)
 						End If
 						charsetB = False
 					Else 'ELSE:(mini < 0)
 						' charset B
-						If i = 1 Then MyBarcode128 = Chr(209) 'START-B code
+						If i = 1 Then MyBarcode128 = Chr(204) 'START-B code
 					End If 'ENDIF:ELSE:(mini < 0)
 				End If 'ENDIF (charsetB)
 				If (Not charsetB) Then
@@ -81,12 +81,12 @@ Function MyBarcode128 (code_str As String) As String
 						if (dummy < 95) then
 							dummy = dummy + 32
 						else
-							dummy = dummy + 105
+							dummy = dummy + 100
 						end if
 						MyBarcode128 = MyBarcode128 & Chr(dummy)
 						i = i + 2
 					Else 'ELSE:(mini < 0) - dang, we don't have 2 digits, switch to charset-B
-						MyBarcode128 = MyBarcode128 & Chr(205)
+						MyBarcode128 = MyBarcode128 & Chr(200)
 						charsetB = True
 					End If 'ENDDIF:ELSE:(mini < 0)
 				End If 'ENDIF:(Not charsetB)
@@ -102,7 +102,7 @@ Function MyBarcode128 (code_str As String) As String
 				if (dummy < 127) then
 					dummy = dummy - 32
 				else
-					dummy = dummy - 105
+					dummy = dummy - 100
 				end if
 				
 				If i = 1 Then 
@@ -115,10 +115,10 @@ Function MyBarcode128 (code_str As String) As String
 			if (checksum < 95) then
 				checksum = checksum + 32
 			else
-				checksum = checksum + 105
+				checksum = checksum + 100
 			end if
 			'Slap at end function result the CSM char and STOP
-			MyBarcode128 = MyBarcode128 & Chr(checksum) & Chr(211)
+			MyBarcode128 = MyBarcode128 & Chr(checksum) & Chr(206)
 		End If
 	End If 'ENDIF:(Len(code_str) > 0)
 	Exit Function

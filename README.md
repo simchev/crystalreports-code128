@@ -1,3 +1,9 @@
+# This version
+
+I forked this from [saper-2](https://github.com/saper-2/crystalreports-code128) and his version is based on this [website](https://grandzebu.net/informatique/codbar-en/code128.htm#Version).
+These original VB implementations use the uncommon encoding so if you have a common encoding font it won't work.
+I edited the VB script for the common encoding. This code has room for optimization but I didn't bother changing anything other than the encoding.
+
 # Bar code 128 in Crystal Report
 
 To have Code 128 barcode in report from CR you have 2 options:
